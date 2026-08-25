@@ -1,3 +1,5 @@
+import json
+
 def buscar(clave, contactos):
     encontrado= None
     for contacto in contactos:
@@ -35,8 +37,17 @@ def mas_chico(contactos):
             minimo=contacto
     return minimo["nombre"]
 
+
+
+
 contactos = [
 ]
+
+try :
+    with open('contactos.json', 'r') as f:
+        contactos = json.load(f)
+except FileNotFoundError:
+    print("No existe el archivo contactos.json")
 
 mostrar_menu()
 opcion = int(input("Ingrese una opcion: \n"))
@@ -82,12 +93,20 @@ while opcion != 6:
                 print(f"Persona mas joven: {mas_chico(contactos)}")
             else:
                 print("No hay contactos")
-        elif opcion == 6 : 
-            print("Saliendo del programa..")
         else:
             print("Opcion incorrecta, reingresar")
             
             
         mostrar_menu()        
-        opcion = int(input("Ingrese una opcion: \n"))
+        
+        try:
+            opcion = int(input("Ingrese una opcion: \n"))
+        except ValueError:
+            print("Ingrese un numero como opcion")
+            opcion = int(input("Ingrese una opcion: \n"))
+            
+print("Saliendo del programa..")
+
+with open("contactos.json", "w") as f:
+    json.dump(contactos, f)
     
